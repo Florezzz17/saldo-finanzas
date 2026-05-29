@@ -62,6 +62,7 @@ const StoreCtx = React.createContext(null);
 export function StoreProvider({ children, currency, user }) {
   const [txs,     setTxs]     = React.useState([]);
   const [cats,    setCats]    = React.useState([]);
+  const [goals,   setGoals]   = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
   /* Load data from Supabase once on mount */
@@ -71,13 +72,15 @@ export function StoreProvider({ children, currency, user }) {
 
     const load = async () => {
       setLoading(true);
-      const [catsRes, txsRes] = await Promise.all([
+      const [catsRes, txsRes, goalsRes] = await Promise.all([
         supabase.from('categories').select('*').eq('user_id', user.id).order('position'),
         supabase.from('transactions').select('*').eq('user_id', user.id).order('date', { ascending: false }).order('created_at', { ascending: false }),
+        supabase.from('savings_goals').select('*').eq('user_id', user.id).order('created_at'),
       ]);
       if (cancelled) return;
-      if (catsRes.data) setCats(catsRes.data.map(dbToCat));
-      if (txsRes.data)  setTxs(txsRes.data.map(dbToTx));
+      if (catsRes.data)  setCats(catsRes.data.map(dbToCat));
+      if (txsRes.data)   setTxs(txsRes.data.map(dbToTx));
+      if (goalsRes.data) setGoals(goalsRes.data);
       setLoading(false);
     };
 
@@ -129,6 +132,31 @@ export function StoreProvider({ children, currency, user }) {
     });
   };
 
+  const addGoal = async (goal) => {
+    const { data, error } = await supabase
+      .from('savings_goals')
+      .insert({ ...goal, user_id: user.id })
+      .select().single();
+    if (error) { console.error(error); return; }
+    setGoals(prev => [...prev, data]);
+  };
+
+  const updateGoal = async (id, patch) => {
+    const { data, error } = await supabase
+      .from('savings_goals')
+      .update(patch)
+      .eq('id', id)
+      .select().single();
+    if (error) { console.error(error); return; }
+    setGoals(prev => prev.map(g => g.id === id ? data : g));
+  };
+
+  const deleteGoal = async (id) => {
+    const { error } = await supabase.from('savings_goals').delete().eq('id', id);
+    if (error) { console.error(error); return; }
+    setGoals(prev => prev.filter(g => g.id !== id));
+  };
+
   /* ── Derived state ────────────────────────────────────────── */
   const fmt    = React.useMemo(() => makeFmt(currency), [currency]);
   const catMap = React.useMemo(() => Object.fromEntries(cats.map(c => [c.id, c])), [cats]);
@@ -168,6 +196,7 @@ export function StoreProvider({ children, currency, user }) {
 
   const value = {
     txs, cats, catMap, addTx, updateTx, deleteTx, addCat,
+    goals, addGoal, updateGoal, deleteGoal,
     fmt, month, balance, history, currency, loading,
     MONTHS, relDay, fullDay, isThisMonth, NOW: now, user,
   };

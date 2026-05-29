@@ -36,6 +36,7 @@ const NAV = [
   { id: "movs",   label: "Movimientos",  icon: "list"     },
   { id: "cats",   label: "Categorías",   icon: "grid"     },
   { id: "stats",  label: "Estadísticas", icon: "chart"    },
+  { id: "metas",  label: "Metas",        icon: "flag"     },
   { id: "config", label: "Ajustes",      icon: "settings" },
 ];
 

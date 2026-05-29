@@ -50,6 +50,9 @@ const ICON_PATHS = {
   dumbbell: <><path d="M6 8v8M3.5 9.5v5M18 8v8M20.5 9.5v5M6 12h12"/></>,
   paw:      <><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="18.5" cy="13" r="1.5"/><path d="M12 13c-2.5 0-4 2-4 4a2.5 2.5 0 0 0 5 0c0-.5 1.5-.5 1.5 0a2.5 2.5 0 0 0 5 0c0-2-1.5-4-4-4"/></>,
   dots:     <><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></>,
+  flag:     <><path d="M4 21V5"/><path d="M4 5h13l-3.5 5 3.5 5H4"/></>,
+  piggy:    <><path d="M19 10c0 3.9-3.1 7-7 7s-7-3.1-7-7 3.1-7 7-7c1.4 0 2.7.4 3.8 1.1"/><path d="M19 10h2v3h-2"/><path d="M8 14s.8 2 4 2 4-2 4-2"/><circle cx="9.5" cy="9.5" r="1"/><path d="M17 6l2-2"/></>,
+  star:     <><path d="M12 2l3.1 6.3L22 9.3l-5 4.9 1.2 6.9L12 18l-6.2 3.1 1.2-6.9-5-4.9 6.9-1z"/></>,
 };
 
 export function Icon({ name, size = 22, stroke = 2, fill = "none", color = "currentColor", style }) {

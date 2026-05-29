@@ -8,6 +8,7 @@ import { AddSheet }       from './screens/AddSheet';
 import { Movimientos }    from './screens/Movimientos';
 import { Categorias }     from './screens/Categorias';
 import { Estadisticas }   from './screens/Estadisticas';
+import { Metas }          from './screens/Metas';
 import { Configuracion }  from './screens/Configuracion';
 
 const DEFAULTS = { dark: false, accent: "#6359e9", currency: "USD", font: "Manrope" };
@@ -61,6 +62,7 @@ function AppContent({ t, setTweak }) {
   else if (tab === 'movs')  screen = <Movimientos onOpenTx={openTx} />;
   else if (tab === 'cats')  screen = <Categorias />;
   else if (tab === 'stats') screen = <Estadisticas />;
+  else if (tab === 'metas') screen = <Metas />;
   else screen = (
     <Configuracion
       dark={t.dark}         setDark={v => setTweak('dark', v)}
