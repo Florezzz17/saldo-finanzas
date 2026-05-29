@@ -101,16 +101,24 @@ export default function App() {
   const setTweak              = (key, val) => setT(prev => ({ ...prev, [key]: val }));
 
   React.useEffect(() => {
-    /* Keep session in sync — fires immediately with current session,
-       and again on login / logout / token refresh */
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session ?? null);
     });
 
-    /* Restore existing session (handles OAuth code in URL on redirect back) */
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(prev => prev === undefined ? (session ?? null) : prev);
-    });
+    /* If there's a PKCE code in the URL, exchange it for a session */
+    const code = new URLSearchParams(window.location.search).get('code');
+    if (code) {
+      supabase.auth.exchangeCodeForSession(code).then(({ data }) => {
+        if (data?.session) {
+          window.history.replaceState({}, '', window.location.pathname);
+          setSession(data.session);
+        }
+      });
+    } else {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session ?? null);
+      });
+    }
 
     return () => subscription.unsubscribe();
   }, []);
