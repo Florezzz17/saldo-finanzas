@@ -1,7 +1,8 @@
 import React from 'react';
-import { Icon }     from '../components/Icon';
-import { useStore } from '../store/StoreContext';
-import { supabase } from '../lib/supabase';
+import { Icon }               from '../components/Icon';
+import { useStore }           from '../store/StoreContext';
+import { supabase }           from '../lib/supabase';
+import { exportCSV, exportPDF } from '../lib/export';
 
 function Switch({ on, onClick }) {
   return <div className={"switch" + (on ? " on" : "")} onClick={onClick} />;
@@ -23,14 +24,16 @@ function SetRow({ icon, color, label, val, right, onClick }) {
 const ACCENTS = ["#6359e9", "#0ea5a4", "#f59e0b", "#e85ca0", "#3b82f6"];
 
 export function Configuracion({ dark, setDark, currency, setCurrency, accent, setAccent }) {
-  const { user }             = useStore();
+  const { user, txs, catMap, balance } = useStore();
   const [faceId, setFaceId]  = React.useState(true);
   const [notif,  setNotif]   = React.useState(true);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    // onAuthStateChange in App.jsx sets session to null → shows AuthScreen
   };
+
+  const handleExportCSV = () => exportCSV(txs, catMap);
+  const handleExportPDF = () => exportPDF(txs, catMap, balance, currency);
 
   const displayName  = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || "Usuario";
   const initials     = displayName.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
@@ -83,7 +86,8 @@ export function Configuracion({ dark, setDark, currency, setCurrency, accent, se
       <div className="pad" style={{ marginTop: 18 }}>
         <div className="eyebrow" style={{ marginBottom: 9, marginLeft: 4 }}>Datos</div>
         <div className="set-group">
-          <SetRow icon="download" color="#11a36b" label="Exportar datos"        val="CSV · PDF" />
+          <SetRow icon="download" color="#11a36b" label="Exportar CSV" val="Excel" onClick={handleExportCSV} />
+          <SetRow icon="download" color="#7c6cf0" label="Exportar PDF" val="Informe" onClick={handleExportPDF} />
           <SetRow icon="cloud"    color="#00b3c4" label="Copia de seguridad"    val="Hoy, 9:41" />
         </div>
       </div>
