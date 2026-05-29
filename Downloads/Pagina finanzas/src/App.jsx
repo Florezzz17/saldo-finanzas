@@ -101,24 +101,11 @@ export default function App() {
   const setTweak              = (key, val) => setT(prev => ({ ...prev, [key]: val }));
 
   React.useEffect(() => {
+    /* onAuthStateChange fires immediately with existing session
+       and handles the implicit flow token in the URL hash */
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session ?? null);
     });
-
-    /* If there's a PKCE code in the URL, exchange it for a session */
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (code) {
-      supabase.auth.exchangeCodeForSession(code).then(({ data }) => {
-        if (data?.session) {
-          window.history.replaceState({}, '', window.location.pathname);
-          setSession(data.session);
-        }
-      });
-    } else {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setSession(session ?? null);
-      });
-    }
 
     return () => subscription.unsubscribe();
   }, []);
