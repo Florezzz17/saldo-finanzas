@@ -32,7 +32,7 @@ export function isThisMonth(dateStr) {
 }
 
 /* ── Currency formatter ───────────────────────────────────── */
-const CUR = { EUR: { code: "EUR", locale: "es-ES" }, USD: { code: "USD", locale: "es-ES" } };
+const CUR = { USD: { code: "USD", locale: "es-CO" }, COP: { code: "COP", locale: "es-CO" } };
 
 function makeFmt(currency) {
   const c  = CUR[currency] || CUR.EUR;

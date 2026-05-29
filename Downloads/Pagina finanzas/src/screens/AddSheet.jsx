@@ -14,7 +14,7 @@ export function AddSheet({ editing, onClose }) {
   const [date,   setDate]   = React.useState(editing?.date  || NOW.toISOString().slice(0, 10));
   const [note,   setNote]   = React.useState(editing?.note  || "");
 
-  const symbol = currency === "USD" ? "$" : "€";
+  const symbol = "$";
   const list   = cats.filter(c => c.type === type);
 
   React.useEffect(() => {

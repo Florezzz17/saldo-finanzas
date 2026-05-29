@@ -10,7 +10,7 @@ import { Categorias }     from './screens/Categorias';
 import { Estadisticas }   from './screens/Estadisticas';
 import { Configuracion }  from './screens/Configuracion';
 
-const DEFAULTS = { dark: false, accent: "#6359e9", currency: "EUR", font: "Manrope" };
+const DEFAULTS = { dark: false, accent: "#6359e9", currency: "USD", font: "Manrope" };
 const FONT_STACK = {
   Manrope: '"Manrope", -apple-system, system-ui, sans-serif',
   Sistema: '-apple-system, "SF Pro", system-ui, sans-serif',

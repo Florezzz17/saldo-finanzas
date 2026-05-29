@@ -62,10 +62,10 @@ export function Configuracion({ dark, setDark, currency, setCurrency, accent, se
         <div className="eyebrow" style={{ marginBottom: 9, marginLeft: 4 }}>Apariencia</div>
         <div className="set-group">
           <SetRow icon={dark ? "moon" : "sun"} color="var(--accent)" label="Tema oscuro" right={<Switch on={dark} onClick={() => setDark(!dark)} />} />
-          <SetRow icon="globe" color="#4b8df0" label="Moneda" val={currency === "EUR" ? "Euro (€)" : "Dólar ($)"} onClick={() => setCurrency(currency === "EUR" ? "USD" : "EUR")} right={
+          <SetRow icon="globe" color="#4b8df0" label="Moneda" val={currency === "USD" ? "Dólar (USD)" : "Peso (COP)"} onClick={() => setCurrency(currency === "USD" ? "COP" : "USD")} right={
             <div className="seg" style={{ padding: 3, gap: 2 }} onClick={e => e.stopPropagation()}>
-              {["EUR", "USD"].map(c => (
-                <button key={c} onClick={() => setCurrency(c)} style={{ padding: "5px 11px", borderRadius: 9, fontSize: 13, border: "none", cursor: "pointer", fontFamily: "var(--font)", fontWeight: 700, background: currency === c ? "var(--surface)" : "transparent", color: currency === c ? "var(--text)" : "var(--text-3)", boxShadow: currency === c ? "var(--shadow-sm)" : "none" }}>{c === "EUR" ? "€" : "$"}</button>
+              {["USD", "COP"].map(c => (
+                <button key={c} onClick={() => setCurrency(c)} style={{ padding: "5px 11px", borderRadius: 9, fontSize: 13, border: "none", cursor: "pointer", fontFamily: "var(--font)", fontWeight: 700, background: currency === c ? "var(--surface)" : "transparent", color: currency === c ? "var(--text)" : "var(--text-3)", boxShadow: currency === c ? "var(--shadow-sm)" : "none" }}>{c}</button>
               ))}
             </div>
           } />
