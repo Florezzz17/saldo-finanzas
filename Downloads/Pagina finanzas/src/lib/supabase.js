@@ -7,4 +7,10 @@ if (!url || !key) {
   console.error('Faltan variables de entorno de Supabase. Crea el archivo .env.local');
 }
 
-export const supabase = createClient(url, key);
+export const supabase = createClient(url, key, {
+  auth: {
+    flowType: 'pkce',
+    detectSessionInUrl: true,
+    persistSession: true,
+  },
+});
